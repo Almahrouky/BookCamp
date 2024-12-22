@@ -6,7 +6,7 @@ The library has a database to store, manage, and retrieve large amounts of data.
 The library ensures the security of the database by preventing the SQL injection attacks.
 The library has a GUI to make things easy.
 ## Demo
-[![Demo](https://img.youtube.com/vi/F30uIxhR9aI/0.jpg)](https://www.youtube.com/watch?v=F30uIxhR9aI)
+[![Demo](https://img.youtube.com/vi/F30uIxhR9aI/0.jpg)](https://www.youtube.com/watch?v=F30uIxhR9aI)  
 Click on the above image to open the video
 ## Features
 - Graphical-User-Interface (GUI)
