@@ -1,23 +1,24 @@
 # Library-Management-System
 ## Overview
-The library management system is a simple application for managing and control library users and books.
-The library has powerful privileges for the owner and other privileges for the admins.
-The library has a database to store, manage, and retrieve large amounts of data.
-The library ensures the security of the database by preventing the SQL injection attacks.
+The library management system is a simple application for managing and control library users and books.  
+The library has powerful privileges for the owner and other privileges for the admins.  
+The library has a database to store, manage, and retrieve large amounts of data.  
+The library ensures the security of the database by preventing the SQL injection attacks.  
 The library has a GUI to make things easy.
 ## Demo
-[![Demo](https://img.youtube.com/vi/F30uIxhR9aI/0.jpg)](https://www.youtube.com/watch?v=F30uIxhR9aI)  
-Click on the above image to open the video
+Click on the below image to open the video  
+[![Demo](https://img.youtube.com/vi/93zthSzZmxU/0.jpg)](https://www.youtube.com/watch?v=93zthSzZmxU)
 ## Features
 - Graphical-User-Interface (GUI)
-- log-in and sign-up
+- Log In and Sign Up
+	- To Sign Up you must create a new unique username.
+- Users' privileges to control the actions made on the library.
+- Admin privileges
+	- Add a new book, show normal users show their transactions, and delete a normal user.
+- Owner privilege
+	- statushow all users beside the privileges of the admin user.
 - Book management
-	- show available books, borrow a book, and return a book.
-- users' privileges to control the actions made on the library.
-- admin privileges
-	- add a new book, show normal users show their transactions, and delete a normal user.
-- owner privilege
-	- show all users beside the privileges of the admin user.
+	- Show available books, borrow a book, and return a book.
 ## Database
 ### Scope
 - The purpose of this database is to store, manage and, retrieve large amounts of data.

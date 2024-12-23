@@ -38,7 +38,7 @@ public class returnPage extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        ISBNField = new javax.swing.JTextField();
+        bookIdField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,11 +81,11 @@ public class returnPage extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Enter the book id:");
+        jLabel2.setText("Enter the book id to return");
 
-        ISBNField.addActionListener(new java.awt.event.ActionListener() {
+        bookIdField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ISBNFieldActionPerformed(evt);
+                bookIdFieldActionPerformed(evt);
             }
         });
 
@@ -107,14 +107,14 @@ public class returnPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ISBNField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bookIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -128,7 +128,7 @@ public class returnPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ISBNField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bookIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,9 +140,9 @@ public class returnPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ISBNFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ISBNFieldActionPerformed
+    private void bookIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookIdFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ISBNFieldActionPerformed
+    }//GEN-LAST:event_bookIdFieldActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -218,27 +218,89 @@ public class returnPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    
+    private boolean checkBorrowed(Integer book_id){
+        boolean can = false;
         try {
-            Integer book_id = Integer.parseInt(ISBNField.getText());
             Connection connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/library_management_system",
                 "root",
                 "MHRQ"
             );
             String query = """
+                select * from borrowed_books where book_id = ?;
+            """;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, book_id); // index (1-based), value
+            ResultSet result = statement.executeQuery();
+            Integer borrowed = 0, returned = 0;
+            while(result.next()){
+                String status = result.getString("status");
+                if(status.equals("borrowed")) ++borrowed;
+                else if(status.equals("returned")) ++returned;
+            }
+            if(borrowed > returned) can = true;
+            else can = false;
+            
+            result.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        return can;
+    }
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(bookIdField.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Enter the book id");
+                return;
+            }
+            Integer book_id = Integer.parseInt(bookIdField.getText());
+            Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/library_management_system",
+                "root",
+                "MHRQ"
+            );
+            
+            // checking if the book in the library
+            String checkFind = """
+                           select id from book where id = ?;
+                           """;
+            PreparedStatement statement = connection.prepareStatement(checkFind);
+            statement.setInt(1, book_id);
+            ResultSet res = statement.executeQuery();
+            boolean find = false;
+            if(res.next()){
+               find = true; 
+            }
+            if(!find){
+                JOptionPane.showMessageDialog(this, "This book was not found");
+                return;
+            }
+            
+            // checking if the book was borrowed
+            boolean borrowed = checkBorrowed(book_id);
+            if(!borrowed){
+                JOptionPane.showMessageDialog(this, "This book is not in your borrowed books list");
+                return;
+            }
+            
+            // query to update copies in the end
+            String query = """
                            update book
                            set copies = ? where id = ?;
                            """;
             
+            
             String getCopies = """
                                select copies from book where id = ?;
                                """;
-            PreparedStatement statement = connection.prepareStatement(getCopies);
+            statement = connection.prepareStatement(getCopies);
             statement.setInt(1, book_id);
-            ResultSet res = statement.executeQuery();
+            res = statement.executeQuery();
             Integer oldCopies = 0;
             while(res.next()){
                 oldCopies = res.getInt("copies");
@@ -268,7 +330,7 @@ public class returnPage extends javax.swing.JFrame {
                 break;
             }
             
-            // now execute trans
+            // now execute trans query
             statement = connection.prepareStatement(trans);
             statement.setInt(1, user_id);
             statement.setString(2, username);
@@ -324,7 +386,7 @@ public class returnPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ISBNField;
+    private javax.swing.JTextField bookIdField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
