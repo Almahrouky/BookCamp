@@ -30,7 +30,7 @@ For this database, I've chosen the following entities and their attributes:
 - id (primary key, auto_increment, int)
 - username (not null, varchar(20))
 - password (not null, varchar(20))
-- type (not null enum('owner', 'admin', 'normal'))
+- type (not null, enum('owner', 'admin', 'normal'))
 ##### 2-book
 - id (primary key, auto_increment, int)
 - ISBN (varchar(20))
