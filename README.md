@@ -1,7 +1,7 @@
 # BookCamp
 ## Overview
-BookCamp is a library management system for managing and control library users and books.  
-The library has owner with customized privileges, administrators with other privileges, and also supports normal users.  
+BookCamp is a library management system for managing and controlling library users and books.  
+The library has an owner with custome privileges, administrators with other privileges, and also supports normal users.  
 The library has a database to store, manage, and retrieve large amounts of data.  
 The library ensures the security of the database by preventing the SQL injection attacks.  
 The library has a GUI to make things easy.
