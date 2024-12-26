@@ -1,7 +1,7 @@
 # BookCamp
 ## Overview
-The library management system is a simple application for managing and control library users and books.  
-The library has powerful privileges for the owner and other privileges for the admins.  
+BookCamp is a library management system for managing and control library users and books.  
+The library has owner with customized privileges, administrators with other privileges, and also supports normal users.  
 The library has a database to store, manage, and retrieve large amounts of data.  
 The library ensures the security of the database by preventing the SQL injection attacks.  
 The library has a GUI to make things easy.
@@ -59,5 +59,5 @@ For this database, I've chosen the following entities and their attributes:
 - indexing: for username, password, type, ISBN, etc. to improve these queries performance.
 ## Technologies Used
 - Java as a programming language.
-- Java swing for the GUI.
+- Java Swing for the GUI.
 - MySQL for the database.
