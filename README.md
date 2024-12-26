@@ -1,4 +1,4 @@
-# Library-Management-System
+# BookCamp
 ## Overview
 The library management system is a simple application for managing and control library users and books.  
 The library has powerful privileges for the owner and other privileges for the admins.  
@@ -49,6 +49,7 @@ For this database, I've chosen the following entities and their attributes:
 ##### And also used constraints:
 - primary key: for the id to be unique for each row in the table.
 - auto_increment: to automatically give the new row a unique number specifically it increments the number by one for every new row.
+- unique: for username.
 - not null: for username, password, and type to avoid wrong login and for ISBN, book_name, and copies to identify the book, etc.
 #### Relationships
 ![ER Diagram](images/ER%20Diagram.png)

@@ -5,7 +5,7 @@ use Library_Management_System;
 -- creating the tables
 create table user(
     id int auto_increment,
-    username varchar(20) not null,
+    username varchar(20) not null unique,
     password varchar(20) not null,
     type enum('owner', 'admin', 'normal') not null,
     primary key (id)
