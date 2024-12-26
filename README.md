@@ -28,7 +28,7 @@ Click on the below image to open the video
 For this database, I've chosen the following entities and their attributes:
 ##### 1- user
 - id (primary key, auto_increment, int)
-- username (not null, varchar(20))
+- username (not null, unique, varchar(20))
 - password (not null, varchar(20))
 - type (not null, enum('owner', 'admin', 'normal'))
 ##### 2-book
