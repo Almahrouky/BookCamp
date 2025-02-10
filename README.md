@@ -5,8 +5,7 @@ Implemented role-based access control for `owner`, `administrators`, and `normal
 Designed a `database` to store, manage, and retrieve large amounts of data.  
 Enhanced database security by preventing the `SQL injection attacks`.  
 ## Demo
-Click on the below image to open the video  
-[![Demo](https://img.youtube.com/vi/93zthSzZmxU/0.jpg)](https://www.youtube.com/watch?v=93zthSzZmxU)
+[Demo Video](https://drive.google.com/file/d/1YpiOGAqlh7Bqn8FOjZsC8EMSHH_-dL2D/view?usp=sharing)
 ## Features
 - Graphical-User-Interface (GUI)
 - Log In and Sign Up
